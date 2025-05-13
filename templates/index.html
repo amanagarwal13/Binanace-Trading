@@ -1,0 +1,261 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <!-- Left Column - Order History -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Order History</h5>
+                <button id="refreshOrderHistory" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-3" id="orderHistoryTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">All</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="open-tab" data-bs-toggle="tab" data-bs-target="#open" type="button" role="tab">Open</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="filled-tab" data-bs-toggle="tab" data-bs-target="#filled" type="button" role="tab">Filled</button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="orderHistoryTabsContent">
+                    <div class="tab-pane fade show active" id="all" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Symbol</th>
+                                        <th>Side</th>
+                                        <th>Type</th>
+                                        <th>Price</th>
+                                        <th>Stop Price</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                        <th>Time</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="allOrdersTableBody">
+                                    <tr>
+                                        <td colspan="9" class="text-center">Loading orders...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="open" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Symbol</th>
+                                        <th>Side</th>
+                                        <th>Type</th>
+                                        <th>Price</th>
+                                        <th>Stop Price</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                        <th>Time</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="openOrdersTableBody">
+                                    <tr>
+                                        <td colspan="9" class="text-center">Loading open orders...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="filled" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Symbol</th>
+                                        <th>Side</th>
+                                        <th>Type</th>
+                                        <th>Price</th>
+                                        <th>Stop Price</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="filledOrdersTableBody">
+                                    <tr>
+                                        <td colspan="8" class="text-center">Loading filled orders...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right Column - Place Order -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Place Order</h5>
+            </div>
+            <div class="card-body">
+                <form id="orderForm">
+                    <!-- Symbol Selection -->
+                    <div class="mb-3">
+                        <label for="symbol" class="form-label">Symbol</label>
+                        <select class="form-select" id="symbol" name="symbol" required>
+                            <option value="" selected disabled>Select a trading pair</option>
+                            {% for symbol in symbols %}
+                            <option value="{{ symbol }}">{{ symbol }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Side Selection (Buy/Sell) -->
+                    <div class="mb-3">
+                        <label class="form-label">Side</label>
+                        <div class="d-flex">
+                            <div class="form-check form-check-inline flex-fill">
+                                <input class="btn-check" type="radio" name="side" id="sideBuy" value="BUY" checked>
+                                <label class="btn btn-outline-success w-100" for="sideBuy">BUY</label>
+                            </div>
+                            <div class="form-check form-check-inline flex-fill">
+                                <input class="btn-check" type="radio" name="side" id="sideSell" value="SELL">
+                                <label class="btn btn-outline-danger w-100" for="sideSell">SELL</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Order Type Selection -->
+                    <div class="mb-3">
+                        <label for="orderType" class="form-label">Order Type</label>
+                        <select class="form-select" id="orderType" name="orderType" required>
+                            <option value="MARKET">Market</option>
+                            <option value="LIMIT">Limit</option>
+                            <option value="STOP">Stop</option>
+                            <option value="STOP_MARKET">Stop Market</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Quantity -->
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" step="0.001" min="0.001" required>
+                    </div>
+                    
+                    <!-- Price (for LIMIT orders) -->
+                    <div class="mb-3 order-param" id="priceField" style="display: none;">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="price" name="price" step="0.01" min="0.01">
+                    </div>
+                    
+                    <!-- Stop Price (for STOP, STOP_MARKET orders) -->
+                    <div class="mb-3 order-param" id="stopPriceField" style="display: none;">
+                        <label for="stopPrice" class="form-label">Stop Price</label>
+                        <input type="number" class="form-control" id="stopPrice" name="stopPrice" step="0.01" min="0.01">
+                    </div>
+                    
+                    <!-- Market data for selected symbol -->
+                    <div class="mb-3 p-3 bg-light rounded" id="marketDataContainer" style="display: none;">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0">Market Data</h6>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="refreshMarketData">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>Current price: <span id="currentPrice" class="fw-bold">-</span></div>
+                            <div>24h Change: <span id="priceChange" class="fw-bold">-</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" id="placeOrderBtn">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Account Balance Card -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Account Balance</h5>
+                <button id="refreshBalance" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Wallet Balance</th>
+                                <th>Unrealized PNL</th>
+                                <th>Available Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accountBalanceTableBody">
+                            <tr>
+                                <td colspan="4" class="text-center">Loading balance data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Status Modal -->
+<div class="modal fade" id="orderStatusModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Order Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="orderStatusBody">
+                <!-- Order status will be displayed here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // This will be loaded after the main.js file
+    $(document).ready(function() {
+        // Initial data load
+        loadOrderHistory();
+        loadOpenOrders();
+        loadAccountBalance();
+        
+        // Set up refresh buttons
+        $('#refreshOrderHistory').click(function() {
+            loadOrderHistory();
+            loadOpenOrders();
+        });
+        
+        $('#refreshBalance').click(function() {
+            loadAccountBalance();
+        });
+    });
+</script>
+{% endblock %}

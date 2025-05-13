@@ -1,0 +1,249 @@
+/* Main Styles */
+body {
+  background-color: #1a1a2e;
+  color: #e6e6e6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container-fluid {
+  max-width: 1400px;
+}
+
+/* Card Styles */
+.card {
+  background-color: #222442;
+  border: none;
+  border-radius: 10px;
+}
+
+.card-header {
+  border-radius: 10px 10px 0 0 !important;
+}
+
+.card-body {
+  background-color: #0f1025;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Table Styles */
+.table {
+  color: #e6e6e6;
+}
+
+.table thead th {
+  background-color: #222442;
+  border-color: #2e2e5a;
+  color: #fff;
+}
+
+/* Ensure all order history table rows have white text */
+#allOrdersTableBody tr,
+#openOrdersTableBody tr,
+#filledOrdersTableBody tr {
+  color: #fff !important;
+  background-color: transparent !important;
+}
+
+/* Remove alternating row styles for order history tables */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: transparent !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Make all order history table text white, including buy/sell rows */
+#allOrdersTableBody tr,
+#openOrdersTableBody tr,
+#filledOrdersTableBody tr {
+  color: #fff !important;
+}
+
+/* Make all text in order history tables white */
+#allOrdersTableBody td, #allOrdersTableBody th,
+#openOrdersTableBody td, #openOrdersTableBody th,
+#filledOrdersTableBody td, #filledOrdersTableBody th {
+  color: #fff !important;
+}
+
+/* Smaller font and tighter spacing for order history tables */
+#allOrdersTableBody td, #allOrdersTableBody th,
+#openOrdersTableBody td, #openOrdersTableBody th,
+#filledOrdersTableBody td, #filledOrdersTableBody th {
+  font-size: 0.75rem !important;
+  padding: 0.15rem 0.2rem !important;
+}
+
+/* Optionally, make the table header even smaller */
+#allOrdersTableBody th, #openOrdersTableBody th, #filledOrdersTableBody th {
+  font-size: 0.7rem !important;
+}
+
+/* Form Styles */
+.form-control, .form-select {
+  background-color: #222442;
+  border-color: #2e2e5a;
+  color: #e6e6e6;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: #222442;
+  border-color: #3a3a8c;
+  color: #e6e6e6;
+  box-shadow: 0 0 0 0.25rem rgba(58, 58, 140, 0.25);
+}
+
+.form-control::placeholder {
+  color: #a0a0a0;
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: #3a3a8c;
+  border-color: #3a3a8c;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #4a4aa9;
+  border-color: #4a4aa9;
+}
+
+.btn-danger {
+  background-color: #ae2c2c;
+  border-color: #ae2c2c;
+}
+
+.btn-danger:hover, .btn-danger:focus {
+  background-color: #d43535;
+  border-color: #d43535;
+}
+
+.btn-success {
+  background-color: #2a8c3a;
+  border-color: #2a8c3a;
+}
+
+.btn-success:hover, .btn-success:focus {
+  background-color: #34a946;
+  border-color: #34a946;
+}
+
+.btn-outline-success {
+  color: #34a946;
+  border-color: #34a946;
+}
+
+.btn-outline-success:hover, .btn-outline-success:focus {
+  background-color: #34a946;
+  color: #fff;
+}
+
+.btn-outline-danger {
+  color: #d43535;
+  border-color: #d43535;
+}
+
+.btn-outline-danger:hover, .btn-outline-danger:focus {
+  background-color: #d43535;
+  color: #fff;
+}
+
+/* Nav Tabs */
+.nav-tabs {
+  border-bottom-color: #2e2e5a;
+}
+
+.nav-tabs .nav-link {
+  color: #a0a0a0;
+  border: none;
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: transparent;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-tabs .nav-link.active {
+  color: #fff;
+  background-color: #3a3a8c;
+  border-color: transparent;
+}
+
+/* Market Data */
+.text-success {
+  color: #34a946 !important;
+}
+
+.text-danger {
+  color: #d43535 !important;
+}
+
+#marketDataContainer {
+  background-color: #222442 !important;
+}
+
+/* Make account balance table text white except for colored PNL */
+#accountBalanceTableBody td {
+  color: #fff;
+}
+
+/* Modal Styles */
+.modal-content {
+  background-color: #222442;
+  color: #e6e6e6;
+}
+
+.modal-header {
+  border-bottom-color: #2e2e5a;
+}
+
+.modal-footer {
+  border-top-color: #2e2e5a;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #222442;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a3a8c;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a4aa9;
+}
+
+/* Loader Animation */
+.spinner {
+  width: 40px;
+  height: 40px;
+  margin: 20px auto;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #3a3a8c;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .container-fluid {
+      padding: 10px;
+  }
+  
+  .card {
+      margin-bottom: 15px;
+  }
+}
