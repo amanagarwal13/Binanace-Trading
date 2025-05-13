@@ -36,8 +36,6 @@ The `/api/place-order` endpoint supports the following order types (as defined i
 - `LIMIT`: Executes at a specified price or better. Requires `symbol`, `side`, `order_type`, `quantity`, and `price`.
 - `STOP`: Stop-Limit order. Triggers a limit order when the stop price is reached. Requires `symbol`, `side`, `order_type`, `quantity`, `price`, and `stop_price`.
 - `STOP_MARKET`: Stop-Market order. Triggers a market order when the stop price is reached. Requires `symbol`, `side`, `order_type`, `quantity`, and `stop_price`.
-- `TAKE_PROFIT`: Take-Profit Limit order. Similar to STOP, but for taking profit. Requires `symbol`, `side`, `order_type`, `quantity`, `price`, and `stop_price`.
-- `TAKE_PROFIT_MARKET`: Take-Profit Market order. Triggers a market order at the take-profit price. Requires `symbol`, `side`, `order_type`, `quantity`, and `stop_price`.
 
 ### Error Handling
 - Custom error pages for 404 and 500 errors.
